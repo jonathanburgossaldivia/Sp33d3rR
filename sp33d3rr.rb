@@ -24,7 +24,7 @@ options = OptionParser.new do |opts|
   opts.separator 'Sp33d3rr uses Nokogiri to search files from Bing.'
   opts.separator "\nThe following options are available:"
   opts.version = '0.0.1'
-  opts.on('-s', '--site SITE', 'Search files from a website, by example: microsoft.com')\
+  opts.on('-s', '--site SITE', 'Search files from a website, by example: apple.com')\
          { |arg| @site = arg }
   opts.on('-t', '--title', 'Print only titles') { @use_title = true; @use_url = false }
   opts.on('-u', '--url', 'Print only urls') { @use_url = true; @use_title = false }
