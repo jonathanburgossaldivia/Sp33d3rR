@@ -2,7 +2,7 @@
 
 Ruby web scraper to search url files from Bing.
 
-## Getting Started
+## General information
 
 Tested only on macOS Catalina, it should work on Linux.
 
