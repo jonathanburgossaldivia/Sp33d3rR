@@ -2,7 +2,7 @@
 
 Ruby web scraper to search url files from Bing.
 
-![Image description]("https://github.com/jonathanburgossaldivia/Sp33d3rR/blob/master/Banner.jpg")
+![Image description](https://github.com/jonathanburgossaldivia/Sp33d3rR/blob/master/Banner.jpg)
 
 ## General information
 
