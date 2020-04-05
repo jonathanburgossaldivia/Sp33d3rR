@@ -5,8 +5,6 @@ require 'nokogiri'
 require 'open-uri'
 require 'optparse'
 require 'pastel'
-require "net/http"
-
 require_relative './sp33d3rr_banners'
 
 user_agents_path = File.join( File.dirname(__FILE__), './sp33d3rr_user_agents.txt' )
