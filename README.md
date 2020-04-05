@@ -54,4 +54,4 @@ ruby sp33d3rr.rb -s apple.com -b
 
 ## License
 
-This project is licensed under the Eclipse License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the Eclipse Public License 2.0 - see the [LICENSE.md](LICENSE.md) file for details
