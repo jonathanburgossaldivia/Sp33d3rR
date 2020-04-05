@@ -8,7 +8,7 @@ Tested only on macOS Catalina, it should work on Linux.
 
 ### Prerequisites
 
-required gems:
+Required gems:
 
 ```
 benchmark, nokogiri, open-uri, optparse, pastel
@@ -22,7 +22,7 @@ If you are using macOS, the way to install the gems one by one is like this:
 sudo gem install nokogiri
 ```
 
-### Before starting
+### How to use
 
 Open Terminal app or other console app and execute:
 
@@ -34,6 +34,12 @@ By default the program prints only urls but you can also print the file title, l
 
 ```
 ruby sp33d3rr.rb -s apple.com -b
+```
+
+To see the available options run:
+
+```
+ruby sp33d3rr.rb -h
 ```
 
 ## Built With
