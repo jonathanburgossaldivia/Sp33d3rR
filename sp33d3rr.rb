@@ -54,7 +54,7 @@ end
 
 @random_useragent = useragents.sample
 begin
-  open(@site.to_s, 'User-Agent' => @random_useragent.to_s)
+  URI.open(@site.to_s, 'User-Agent' => @random_useragent.to_s).read
 rescue => e
   puts 'ERROR TRYING TO CONNECT TO ' + @site.upcase.to_s
   puts e
@@ -86,7 +86,7 @@ def bing_search(the_site, the_num)
                filetype:(rtf+txt+pdf+xls+doc+ppt+sql)\
                &first=#{the_num}&count=40&filter=0"
 
-  url = open(files_query.to_s, 'User-Agent' => @random_useragent.to_s)
+  url = URI.open(files_query.to_s, 'User-Agent' => @random_useragent.to_s).read
   doc = Nokogiri.HTML(url)
 
   doc.xpath('//li[@class="b_algo"]/h2/a[@href]').each do |link|
