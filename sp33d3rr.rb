@@ -7,7 +7,7 @@ require 'optparse'
 require 'pastel'
 require_relative './sp33d3rr_banners'
 
-user_agents_path = File.join( File.dirname(__FILE__), './sp33d3rr_user_agents.txt' )
+user_agents_path = File.join(File.dirname(__FILE__), './sp33d3rr_user_agents.txt')
 useragents = IO.readlines(user_agents_path)
 CLEAR = "\e[H\e[2J"
 RETURN = "\e[K"
@@ -26,37 +26,44 @@ options = OptionParser.new do |opts|
   opts.version = '0.0.1'
   opts.on('-s', '--site SITE', 'Search files from a website, by example: apple.com')\
          { |arg| @site = arg }
-  opts.on('-t', '--title', 'Print only titles') { @use_title = true; @use_url = false }
-  opts.on('-u', '--url', 'Print only urls') { @use_url = true; @use_title = false }
-  opts.on('-b', '--both', 'Print titles and urls')\
-         { @use_title = true; @use_url = true }
+  opts.on('-t', '--title', 'Print only titles') do
+    @use_title = true
+    @use_url = false
+  end
+  opts.on('-u', '--url', 'Print only urls') do
+    @use_url = true
+    @use_title = false
+  end
+  opts.on('-b', '--both', 'Print titles and urls') do
+    @use_title = true
+    @use_url = true
+  end
   opts.on('-l', '--limit LIMIT', /[0-9]{,5}/i,
           'Limit search') { |arg| @limit = arg.to_i }
   begin
     opts.parse!
     ARGV.push('-h') if ARGV.empty?
-  rescue OptionParser::ParseError, OptionParser::InvalidOption,
-         OptionParser::MissingArgument => e
-    $stderr.puts e
-    $stderr.puts '(-h or --help will show valid options)'
+  rescue => e
+    warn e
+    warn '(-h or --help will show valid options)'
     exit 1
   end
 end
 
 if @site == ''
   puts 'Missing option: site'.ljust(40, '!')
-  puts "\n" + options.to_s
+  puts "\n #{options}"
   exit
 else
-  @site = @site.gsub(/http.?:\/\/|www\./, '')
-  @site = 'http://www.' + @site
+  @site = @site.gsub(%r{http.?://|www.}, '')
+  @site = "http://www.#{@site}"
 end
 
 @random_useragent = useragents.sample
 begin
   URI.open(@site.to_s, 'User-Agent' => @random_useragent.to_s).read
 rescue => e
-  puts 'ERROR TRYING TO CONNECT TO ' + @site.upcase.to_s
+  puts "ERROR TRYING TO CONNECT TO #{@site.upcase}"
   puts e
   exit 1
 end
@@ -101,12 +108,12 @@ puts 'PROGRAM BY: '.rjust(40) + 'Jonathan Burgos'
 puts 'GITHUB: '.rjust(40) + 'https://github.com/jonathanburgossaldivia'
 puts ''.rjust(40, '-')
 
-print 'PROCESSING, WAIT... ' + "\r"
+print "PROCESSING, WAIT... \r"
 search_benchmark = Benchmark.realtime do
   loop do
     bing_search(@site, @num)
     @search_content.each do |fin_title, fin_url|
-      fin_title_clean = fin_title.gsub(/\“|\"|\:/, '')
+      fin_title_clean = fin_title.gsub(/(“|"|:)/, '')
       if fin_url.end_with?('rtf')
         @rtf.push([fin_title_clean.downcase, fin_url])
         @rft_count[1] += 1
@@ -138,15 +145,14 @@ search_benchmark = Benchmark.realtime do
                        @doc_count[1] + @ppt_count[1] + \
                        @sql_count[1] + @url_count[1]
     @num += 40
-    if @total_ext_count > @limit.to_i
-      break
-    end
+    break if @total_ext_count > @limit.to_i
+
     @after_ext_count = @total_ext_count
     @search_content.clear
   end
 end
 
-total = search_benchmark.round.to_s + ' SECOND(S)'
+total = "#{search_benchmark.round} SECOND(S)"
 print RETURN
 puts pastel.underline('GENERAL INFO: '.rjust(40))
 puts 'SITE: '.rjust(40) + @site.upcase.to_s
@@ -170,7 +176,7 @@ puts pastel.underline('FILE LIST: '.rjust(40))
   type.each do |a_title, a_url|
     next unless type.count.positive?
 
-    puts 'TITLE: ' + a_title.to_s if @use_title == true
-    puts 'URL: ' + a_url.to_s if @use_url == true
+    puts "TITLE: #{a_title}" if @use_title == true
+    puts "URL: #{a_url}" if @use_url == true
   end
 end
